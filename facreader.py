@@ -142,10 +142,7 @@ def read_tr_block(fobj):
     df["GAUGE"] = GAUGE
     df["MODE"] = MODE
 
-
     return df
-
-
 
 def read_fac_header(fobj):
     '''
@@ -186,26 +183,3 @@ def read_fac_header(fobj):
             header[key] = val
 
     return header
-
-
-# df_names = ["BOUND_ILEV",
-#             "BOUND_2J",
-#             "FREE_ILEV",
-#             "FREE_2J",
-#             "DELTA_E",
-#             "AI_RATE",
-#             "DC_STRENGTH"]
-# df_types = {"BOUND_ILEV":int,
-#             "BOUND_2J":int,
-#             "FREE_ILEV":int,
-#             "FREE_2J":int,
-#             "DELTA_E":float,
-#             "AI_RATE":float,
-#             "DC_STRENGTH":float}
-ai_header, ai_data = read_ai("K.li.ai")
-tr_header, tr_data = read_tr("K.li.tr")
-print(tr_header)
-print(tr_data.head())
-print("wait")
-print("wait")
-print("wait")
