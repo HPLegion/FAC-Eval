@@ -2,9 +2,9 @@ import facreader
 import pandas as pd
 
 # Set up script
-AI_FILE = "data/K.o.ai"
-TR_FILE = "data/K.o.tr"
-OUT_FILE = "results/K.O.dr.txt"
+AI_FILE = "data/K.He.ai"
+TR_FILE = "data/K.He.tr"
+OUT_FILE = "results/K_gs.He.dr.txt"
 
 # Read FAC Files
 ai_header, ai_data = facreader.read_ai(AI_FILE)
@@ -28,7 +28,10 @@ dr_data.loc[:, "TOTAL_TR_RATE"] = dr_data.apply(lambda row: total_tr(row["BOUND_
 # Compute the fraction of radiative and autoionising decay
 dr_data.loc[:, "RADIATIVE_FRACTION"] = dr_data["TOTAL_TR_RATE"] / (dr_data["TOTAL_TR_RATE"] + dr_data["AI_RATE"])
 # Compute the strength of the DR process decaying radiatively
-dr_data.loc[:, "DR_CROSS_SECTION"] = dr_data["DC_STRENGTH"] * dr_data["RADIATIVE_FRACTION"]
+dr_data.loc[:, "DR_RECOMB_STRENGTH"] = dr_data["DC_STRENGTH"] * dr_data["RADIATIVE_FRACTION"]
+
+#Filter for transitions with ion initially in ground state
+dr_data = dr_data.loc[dr_data["FREE_ILEV"] == dr_data["FREE_ILEV"].min()]
 
 # Save dr table to file
 dr_data.to_csv(OUT_FILE, sep=" ", index=False)
