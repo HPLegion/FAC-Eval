@@ -2,9 +2,9 @@ import facreader
 import pandas as pd
 
 # Set up script
-AI_FILE = "data/K.He.ai"
-TR_FILE = "data/K.He.tr"
-OUT_FILE = "results/K_gs.He.dr.txt"
+AI_FILE = "data/Fe.O.ai"
+TR_FILE = "data/Fe.O.tr"
+OUT_FILE = "results/Fe_gs.O.dr.txt"
 
 # Read FAC Files
 ai_header, ai_data = facreader.read_ai(AI_FILE)
