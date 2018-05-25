@@ -2,9 +2,9 @@ from pfac import fac
 import os
 
 def compute_dr(z, dr_type, path=""):
-    elem = fac.ATOMICSYMBOL[z].lower()
+    elem = fac.ATOMICSYMBOL[z]
     # Initialise
-    fac.Reinit(m=0)
+    fac.Reinit()
     fac.SetAtom(elem)
     # Execute problem specific configuration
     type_name = dr_type()
@@ -36,7 +36,7 @@ def compute_dr(z, dr_type, path=""):
             os.remove(f)
         except OSError as e:  ## if failed, report it back to the user ##
             print("Error: %s - %s." % (e.filename, e.strerror))
-    print(elem + type_name + " done.")
+    print("Element:" + elem + " DR: " + type_name + " done.")
 
 def compute_kll(z, path=""):
     if z > 2:
