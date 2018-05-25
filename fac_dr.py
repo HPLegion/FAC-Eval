@@ -59,46 +59,46 @@ def kll_he():
     fac.Config('1s2 2*0', group="initial")
     fac.Config('1*1 2*2', group="transient")
     fac.Config('1s2 2*1', group="final")
-    return "kll-he"
+    return "KLL-He"
 
 def kll_li():
     """Electron config for KLL DR with li-like initial state"""
     fac.Config('1s2 2*1', group="initial")
     fac.Config('1*1 2*3', group="transient")
     fac.Config('1s2 2*2', group="final")
-    return "kll-li"
+    return "KLL-Li"
 
 def kll_be():
     """Electron config for KLL DR with be-like initial state"""
     fac.Config('1s2 2*2', group="initial")
     fac.Config('1*1 2*4', group="transient")
     fac.Config('1s2 2*3', group="final")
-    return "kll-be"
+    return "KLL-Be"
 
 def kll_b():
     """Electron config for KLL DR with b-like initial state"""
     fac.Config('1s2 2*3', group="initial")
     fac.Config('1*1 2*5', group="transient")
     fac.Config('1s2 2*4', group="final")
-    return "kll-b"
+    return "KLL-B"
 
 def kll_c():
     """Electron config for KLL DR with c-like initial state"""
     fac.Config('1s2 2*4', group="initial")
     fac.Config('1*1 2*6', group="transient")
     fac.Config('1s2 2*5', group="final")
-    return "kll-c"
+    return "KLL-C"
 
 def kll_n():
     """Electron config for KLL DR with n-like initial state"""
     fac.Config('1s2 2*5', group="initial")
     fac.Config('1*1 2*7', group="transient")
     fac.Config('1s2 2*6', group="final")
-    return "kll-n"
+    return "KLL-N"
 
 def kll_o():
     """Electron config for KLL DR with o-like initial state"""
     fac.Config('1s2 2*6', group="initial")
     fac.Config('1*1 2*8', group="transient")
     fac.Config('1s2 2*7', group="final")
-    return "kll-o"
+    return "KLL-O"
