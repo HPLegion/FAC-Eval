@@ -23,13 +23,13 @@ def compute_dr(z, dr_type, path=""):
     # Compute structure and energy levels
     fac.Structure(f_lev_b,["initial", "transient", "final"])
     fac.MemENTable(f_lev_b)
-    fac.PrintTable(f_lev_b, f_lev, v=1)
+    fac.PrintTable(f_lev_b, f_lev, 1)
     # Compute the transisiton table for radiative decay
     fac.TransitionTable(f_tr_b, ["final"], ["transient"])
-    fac.PrintTable(f_tr_b, f_tr, v=1)
+    fac.PrintTable(f_tr_b, f_tr, 1)
     # Compute the Autoionisation table
     fac.AITable(f_ai_b, ["transient"], ["initial"])
-    fac.PrintTable(f_ai_b, f_ai, v=1)
+    fac.PrintTable(f_ai_b, f_ai, 1)
     # Clean up
     for f in [f_lev_b, f_tr_b, f_ai_b]:
         try:
