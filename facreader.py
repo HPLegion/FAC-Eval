@@ -8,6 +8,76 @@ except ImportError:
     from io import StringIO
 import pandas as pd
 
+def read_lev(filename):
+    '''
+    Method for Importing a FAC Output containing data on level structure
+    '''
+    data = pd.DataFrame()
+    with open(filename) as fobj:
+        header = read_fac_header(fobj)
+        for n in range(header["NBlocks"]):
+            block = read_lev_block(fobj)
+            block["BLOCK_INDEX"] = n
+            data = data.append(block, ignore_index=True)
+    return header, data
+
+def read_lev_block(fobj):
+    '''
+    Reads a block of a lev file and returns a dataframe with the content
+    Expects Cursor at beginning of block and moves it past the final newline of this block
+    '''
+    # Read Block Header
+    NELE = int(fobj.readline().split("=")[-1])
+    NLEV = int(fobj.readline().split("=")[-1])
+    #Skip annotation line
+    fobj.readline()
+
+    # Read Block
+    buffer = StringIO()
+    for _ in range(NLEV):
+        line = fobj.readline()
+        start_complex = line.rfind(" ", 0, line.find("*")) + 1
+        stop_complex = line.find(" ", line.rfind("*"))
+        start_name = line.rfind(" ", 0, line.find("(")) + 1
+        begin = ",".join(line[:start_complex].split())
+        compl = line[start_complex:stop_complex].strip()
+        sname = line[stop_complex:start_name].strip()
+        name = line[start_name:].strip() + "\n"
+        buffer.write(",".join([begin, compl, sname, name]))
+
+    # Read one more line to move cursor to next block/EOF
+    fobj.readline()
+
+    # Convert buffered data to pandas object
+    df_names = ["ILEV",
+                "IBASE",
+                "ENERGY",
+                "P",
+                "VNL",
+                "2J",
+                "COMPLEX",
+                "SNAME",
+                "NAME"]
+    df_types = {"ILEV":int,
+                "IBASE":int,
+                "ENERGY":float,
+                "P":int,
+                "VNL":int,
+                "2J":int,
+                "COMPLEX":str,
+                "SNAME":str,
+                "NAME":str}
+    buffer.seek(0)
+    df = pd.read_csv(buffer, sep=",",
+                     names=df_names, dtype=df_types, index_col=False)
+    buffer.close()
+
+    # Add header data
+    df["NELE"] = NELE
+    df["NLEV"] = NLEV
+
+    return df
+
 def read_ai(filename):
     '''
     Method for Importing a FAC Output containing data on autoionising transitions
