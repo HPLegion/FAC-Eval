@@ -42,9 +42,9 @@ def read_ai_block(fobj):
         EGRID.append(float(fobj.readline()))
 
     # Read Block
-    block = []
+    buffer = StringIO()
     for _ in range(NTRANS):
-        block.append(fobj.readline())
+        buffer.write(fobj.readline())
 
     # Read one more line to move cursor to next block/EOF
     fobj.readline()
@@ -64,7 +64,7 @@ def read_ai_block(fobj):
                 "DELTA_E":float,
                 "AI_RATE":float,
                 "DC_STRENGTH":float}
-    buffer = StringIO("".join(block))
+    buffer.seek(0)
     df = pd.read_csv(buffer, delim_whitespace=True,
                      names=df_names, dtype=df_types, index_col=False)
     buffer.close()
@@ -74,7 +74,7 @@ def read_ai_block(fobj):
     df["NTRANS"] = NTRANS
     df["NEGRID"] = NEGRID
     df["EMIN"] = EMIN
-    df['EGRID'] = ", ".join([str(e) for e in EGRID])
+    df["EGRID"] = ", ".join([str(e) for e in EGRID])
     if CHANNEL:
         df["CHANNEL"] = CHANNEL
 
@@ -106,9 +106,9 @@ def read_tr_block(fobj):
     MODE = int(fobj.readline().split("=")[-1])
 
     # Read Block
-    block = []
+    buffer = StringIO()
     for _ in range(NTRANS):
-        block.append(fobj.readline())
+        buffer.write(fobj.readline())
 
     # Read one more line to move cursor to next block/EOF
     fobj.readline()
@@ -130,7 +130,7 @@ def read_tr_block(fobj):
                 "GF":float,
                 "TR_RATE":float,
                 "MULTIPOLE":float}
-    buffer = StringIO("".join(block))
+    buffer.seek(0)
     df = pd.read_csv(buffer, delim_whitespace=True,
                      names=df_names, dtype=df_types, index_col=False)
     buffer.close()
@@ -176,7 +176,7 @@ def read_fac_header(fobj):
 
         # Treat Element Line specially
         if key.endswith(" Z"):
-            header["Z"] = val
+            header["Z"] = int(val)
             header["Element"] = key[:-2]
         # Otherwise write key value pair to dict
         else:
