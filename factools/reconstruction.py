@@ -14,13 +14,14 @@ from itertools import chain, combinations
 MAX_NELE_L = {"s":2, "p":6, "d":10, "f":14, "g":18, "h":22, "i":26, "k":30, "l":34, "m":38}
 L_ORDER = ["s", "p", "d", "f", "g", "h", "i", "k", "l", "m"]
 MAX_NELE_J = {}
-for k, v in MAX_NELE_L.items():
-    MAX_NELE_J[k + "-"] = int(v / 2 - 1)
-    MAX_NELE_J[k + "+"] = int(v / 2 + 1)
+for _k, _v in MAX_NELE_L.items():
+    MAX_NELE_J[_k + "-"] = int(_v / 2 - 1)
+    MAX_NELE_J[_k + "+"] = int(_v / 2 + 1)
 J_ORDER = []
-for l in L_ORDER:
-    J_ORDER.append(l + "-")
-    J_ORDER.append(l + "+")
+for _l in L_ORDER:
+    J_ORDER.append(_l + "-")
+    J_ORDER.append(_l + "+")
+del(_k, _l, _v)
 
 # Helper Method for creating powersets
 def _powerset(iterable):
@@ -82,7 +83,7 @@ def _parse_name(name):
             orb_nele[n] = {}
         if n not in orb_facj:
             orb_facj[n] = {}
-        
+
         orb_nele[n][l] = nele
         orb_facj[n][l] = facj
         # print(n, ":", l, ":", nele)
@@ -275,7 +276,7 @@ def reconstruct_full_config(compl, sname, name, verbose=False):
     """
     Reconstrcut the full configuration, provided the shell occupancy (compl) and the remaining
     information in sname (non relativistic) and name(relativistic)
-    
+
     returns tuple of reconstructed (sname, name)
     """
     full_sname = reconstruct_full_sname(compl, sname)
