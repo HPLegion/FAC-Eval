@@ -1,3 +1,12 @@
+"""
+The functions in this module serve the purpose of trying to reconsturct the full electronic
+configuration of FAC levels.
+FAC omits empty and full orbitals (most often), but usually they should be reconstructable from
+the given information.
+Currently shells up to n=10 and angular momentum up to l=m are available. Technically this could be
+extended, but I don't need more right now
+"""
+
 import re
 from itertools import chain, combinations
 
@@ -46,28 +55,40 @@ def _parse_sname(sname):
 
 def _parse_name(name):
     """
-    Parse FAC's name (relativistic electron configuration) into a dict of dicts
-    drops some information since this will not be recovered anyway
+    Parse FAC's name (relativistic electron configuration) into a dicts of dicts
+    one for the electron numbers and one for the j information
 
     Example
     1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4 --> {1: {'s+': 1}, 2: {'s+': 1, 'p-': 1, 'p+': 1}}
+    1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4 --> {1: {'s+': '(1)1'}, 2: {'s+': '(1)0', 'p-': '(1)1', 'p+': '(3)4'}}
     """
     orb_nele = {}
+    orb_facj = {}
 
     # split the string representing the relativistic config into n and l levels
     for orbital in name.split():
-        if "(" in orbital: # drop everything after and including parenthesis
+        if "(" in orbital: # extract j information without any further processing
+            facj = orbital[orbital.index("("):]
             orbital = orbital[:orbital.index("(")]
+        else:
+            facj = ""
+
         orb = re.split(r"(\D[+-])", orbital)
         n = int(orb[0])
         l = orb[1]
         nele = int(orb[2])
+
         if n not in orb_nele:
             orb_nele[n] = {}
+        if n not in orb_facj:
+            orb_facj[n] = {}
+        
         orb_nele[n][l] = nele
+        orb_facj[n][l] = facj
         # print(n, ":", l, ":", nele)
     # print(name, "-->", orb_nele)
-    return orb_nele
+    # print(name, "-->", orb_facj)
+    return (orb_nele, orb_facj)
 
 def _parse_compl(compl):
     """
@@ -97,13 +118,15 @@ def _assemble_sname(orb_nele):
             ordered_orbitals.append(str(n) + l + str(orb_nele[n][l]))
     return " ".join(ordered_orbitals)
 
-def _assemble_name(orb_nele):
+def _assemble_name(orb_nele, orb_facj):
     ordered_orbitals = []
     ns = sorted(orb_nele.keys())
     for n in ns:
         ls = sorted(orb_nele[n].keys(), key=lambda l: J_ORDER.index(l))
         for l in ls:
-            ordered_orbitals.append(str(n) + l + str(orb_nele[n][l]))
+            orb_str = str(n) + l + str(orb_nele[n][l])
+            orb_str += orb_facj.get(n, {}).get(l, "")
+            ordered_orbitals.append(orb_str)
     return " ".join(ordered_orbitals)
 
 def _f_reconstruct_full_sname(compl, sname):
@@ -183,11 +206,11 @@ def _f_reconstruct_full_name(sname, name):
     This function tries to fill in the omitted parts of FAC's electron configurations
     name (relativistic electron configuration)
 
-    sname needs to be fully reconstructed
+    sname needs to be fully reconstructed for this method to work
     """
 
     s_orb_nele = _parse_sname(sname)
-    r_orb_nele = _parse_name(name)
+    (r_orb_nele, r_orb_facj) = _parse_name(name)
 
     omitted_orbitals = {}
 
@@ -229,7 +252,7 @@ def _f_reconstruct_full_name(sname, name):
     # print("Completed reconstruction -->", r_orb_nele)
 
     # Assemble name and return
-    full_name =  _assemble_name(r_orb_nele)
+    full_name =  _assemble_name(r_orb_nele, r_orb_facj)
     # print("Generated full name -->", full_name)
     return full_name
 
@@ -239,7 +262,7 @@ def reconstruct_full_name(sname, name):
     This function tries to fill in the omitted parts of FAC's electron configurations
     name (relativistic electron configuration)
 
-    sname needs to be fully reconstructed
+    sname needs to be fully reconstructed for this method to work
 
     This function is a memoising wrapper around the actual routine
     """
@@ -249,6 +272,10 @@ def reconstruct_full_name(sname, name):
     return _name_memo[key]
 
 def reconstruct_full_config(compl, sname, name, verbose=False):
+    """
+    Reconstrcut the full configuration, provided the shell occupancy (compl) and the remaining
+    information in sname (non relativistic) and name(relativistic)
+    """
     full_sname = reconstruct_full_sname(compl, sname)
     full_name = reconstruct_full_name(full_sname, name)
     if verbose:
