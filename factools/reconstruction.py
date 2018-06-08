@@ -286,7 +286,17 @@ def reconstruct_full_config(compl, sname, name, verbose=False):
         print("(name)", name, "-->", full_name)
     return (full_sname, full_name)
 
-
+def amend_level_dataframe(df, compl ="COMPLEX", sname="SNAME", name="NAME", full_sname="FULL_SNAME",
+                          full_name="FULL_NAME", verbose=False):
+    """
+    automatically add columns to a data frame, that contain the reconstructed configurations
+    """
+    df = df.copy()
+    fnc_sname = lambda row: reconstruct_full_config(row[compl], row[sname], row[name], verbose)[0]
+    fnc_name = lambda row: reconstruct_full_config(row[compl], row[sname], row[name], False)[1]
+    df.loc[:, full_sname] = df.apply(fnc_sname, axis=1)
+    df.loc[:, full_name] = df.apply(fnc_name, axis=1)
+    return df
 # compl = "1*1 2*3 3*8"
 # sname = "1s1 2s1 2p2"
 # name = "1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4"
