@@ -1,12 +1,8 @@
 .vscode
-K.li.ai
 .cache
-ai.test
-K.li.tr
-test.dat
 __pycache__
 results
 data
 data_complete_steffen
 results_gs_batch
-K.li.lev
+
