@@ -1,5 +1,6 @@
 import factools.fileimport
 import factools.reconstruction
+import factools.dr
 
 
 # Set up script
@@ -13,4 +14,7 @@ tr_header, tr_df = factools.fileimport.read_tr(TR_FILE)
 lev_header, lev_df = factools.fileimport.read_lev(LEV_FILE)
 
 lev_df = factools.reconstruction.amend_level_dataframe(lev_df, verbose=True)
-print(lev_df)
+
+dr_df = factools.dr.dr_table(lev_df, ai_df, tr_df)
+
+print(dr_df.head())
