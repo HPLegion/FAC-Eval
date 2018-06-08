@@ -21,7 +21,6 @@ J_ORDER = []
 for _l in L_ORDER:
     J_ORDER.append(_l + "-")
     J_ORDER.append(_l + "+")
-del(_k, _l, _v)
 
 # Helper Method for creating powersets
 def _powerset(iterable):
@@ -61,7 +60,9 @@ def _parse_name(name):
 
     Example
     1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4 --> {1: {'s+': 1}, 2: {'s+': 1, 'p-': 1, 'p+': 1}}
-    1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4 --> {1: {'s+': '(1)1'}, 2: {'s+': '(1)0', 'p-': '(1)1', 'p+': '(3)4'}}
+
+    1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4 -->
+    {1: {'s+': '(1)1'}, 2: {'s+': '(1)0', 'p-': '(1)1', 'p+': '(3)4'}}
     """
     orb_nele = {}
     orb_facj = {}
@@ -165,7 +166,7 @@ def _f_reconstruct_full_sname(compl, sname):
                 if sum_cfg == missing:
                     sol.append(cfg)
 
-            if len(sol) == 0:
+            if sol == []:
                 print("No solution found for shell:", n)
             elif len(sol) > 1:
                 print("More than one solution found for shell:", n, "--> Aborting")
@@ -185,7 +186,7 @@ def _f_reconstruct_full_sname(compl, sname):
     # print("Completed reconstruction -->", orb_nele)
 
     # Assemble name and return
-    full_sname =  _assemble_sname(orb_nele)
+    full_sname = _assemble_sname(orb_nele)
     # print("Generated full sname -->", full_sname)
     return full_sname
 
@@ -253,7 +254,7 @@ def _f_reconstruct_full_name(sname, name):
     # print("Completed reconstruction -->", r_orb_nele)
 
     # Assemble name and return
-    full_name =  _assemble_name(r_orb_nele, r_orb_facj)
+    full_name = _assemble_name(r_orb_nele, r_orb_facj)
     # print("Generated full name -->", full_name)
     return full_name
 
@@ -287,7 +288,7 @@ def reconstruct_full_config(compl, sname, name, verbose=False):
         print("(name)", name, "-->", full_name)
     return (full_sname, full_name)
 
-def amend_level_dataframe(df, compl ="COMPLEX", sname="SNAME", name="NAME", full_sname="FULL_SNAME",
+def amend_level_dataframe(df, compl="COMPLEX", sname="SNAME", name="NAME", full_sname="FULL_SNAME",
                           full_name="FULL_NAME", verbose=False):
     """
     automatically add columns to a data frame, that contain the reconstructed configurations
