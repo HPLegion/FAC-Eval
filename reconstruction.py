@@ -285,12 +285,12 @@ def reconstruct_full_config(compl, sname, name, verbose=False):
     return (full_sname, full_name)
 
 
-compl = "1*1 2*3 3*8"
-sname = "1s1 2s1 2p2"
-name = "1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4"
-# _parse_compl(compl)
-# _parse_sname(sname)
-# _parse_name(name)
-# sname = reconstruct_full_sname(compl, sname)
-# reconstruct_full_name(sname, name)
-_ = reconstruct_full_config(compl, sname, name, True)
+# compl = "1*1 2*3 3*8"
+# sname = "1s1 2s1 2p2"
+# name = "1s+1(1)1 2s+1(1)0 2p-1(1)1 2p+1(3)4"
+# # _parse_compl(compl)
+# # _parse_sname(sname)
+# # _parse_name(name)
+# # sname = reconstruct_full_sname(compl, sname)
+# # reconstruct_full_name(sname, name)
+# _ = reconstruct_full_config(compl, sname, name, True)
