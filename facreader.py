@@ -14,14 +14,14 @@ def read_lev(filename):
     '''
     data = pd.DataFrame()
     with open(filename) as fobj:
-        header = read_fac_header(fobj)
+        header = _read_fac_header(fobj)
         for n in range(header["NBlocks"]):
-            block = read_lev_block(fobj)
+            block = _read_lev_block(fobj)
             block["BLOCK_INDEX"] = n
             data = data.append(block, ignore_index=True)
     return header, data
 
-def read_lev_block(fobj):
+def _read_lev_block(fobj):
     '''
     Reads a block of a lev file and returns a dataframe with the content
     Expects Cursor at beginning of block and moves it past the final newline of this block
@@ -84,14 +84,14 @@ def read_ai(filename):
     '''
     data = pd.DataFrame()
     with open(filename) as fobj:
-        header = read_fac_header(fobj)
+        header = _read_fac_header(fobj)
         for n in range(header["NBlocks"]):
-            block = read_ai_block(fobj)
+            block = _read_ai_block(fobj)
             block["BLOCK_INDEX"] = n
             data = data.append(block, ignore_index=True)
     return header, data
 
-def read_ai_block(fobj):
+def _read_ai_block(fobj):
     '''
     Reads a block of an ai file and returns a dataframe with the content
     Expects Cursor at beginning of block and moves it past the final newline of this block
@@ -156,14 +156,14 @@ def read_tr(filename):
     '''
     data = pd.DataFrame()
     with open(filename) as fobj:
-        header = read_fac_header(fobj)
+        header = _read_fac_header(fobj)
         for n in range(header["NBlocks"]):
-            block = read_tr_block(fobj)
+            block = _read_tr_block(fobj)
             block["BLOCK_INDEX"] = n
             data = data.append(block, ignore_index=True)
     return header, data
 
-def read_tr_block(fobj):
+def _read_tr_block(fobj):
     '''
     Reads a block of an ai file and returns a dataframe with the content
     Expects Cursor at beginning of block and moves it past the final newline of this block
@@ -214,7 +214,7 @@ def read_tr_block(fobj):
 
     return df
 
-def read_fac_header(fobj):
+def _read_fac_header(fobj):
     '''
     Reads the header section of a FAC Output and returns the information in the form of a dict
     Expects Cursor at beginning of header and moves it past the final newline of the header
