@@ -275,6 +275,8 @@ def reconstruct_full_config(compl, sname, name, verbose=False):
     """
     Reconstrcut the full configuration, provided the shell occupancy (compl) and the remaining
     information in sname (non relativistic) and name(relativistic)
+    
+    returns tuple of reconstructed (sname, name)
     """
     full_sname = reconstruct_full_sname(compl, sname)
     full_name = reconstruct_full_name(full_sname, name)
