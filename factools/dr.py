@@ -3,6 +3,7 @@ Contains Methods for extracting DR related data from FAC Results
 """
 
 import pandas as pd
+from factools.reconstruction import parse_name
 
 INIT_ILEV = "INITAL_ILEV"
 TRANS_ILEV = "TRANSIENT_ILEV"
@@ -23,17 +24,32 @@ DC_STRENGTH = "DC_STRENGTH"
 DR_RECOMB_STRENGTH = "DR_RECOMB_STRENGTH"
 RECOMB_TYPE = "RECOMB_TYPE"
 
+RECOMB_NAMES = {2:"DR", 3:"TR", 4:"QR"}
 
 def recomb_type(inital_name, transient_name):
     """
     Given an intital and transient FAC electron config (name) computes the kind of Transition
     i.e. DR, TR, QR,...
     """
-    return "not impl"
+    initial, _ = parse_name(inital_name)
+    transient, _ = parse_name(transient_name)
+    diff = 0
+    ns = initial.keys() | transient.keys()
+    for n in ns:
+        ini_shell = initial[n]
+        tra_shell = transient[n]
+        lpms = ini_shell.keys() | tra_shell.keys()
+        for lpm in lpms:
+            diff += abs(ini_shell.get(lpm, 0) - tra_shell.get(lpm, 0))
+    diff = int((diff + 1) / 2)
+    if diff in RECOMB_NAMES:
+        return RECOMB_NAMES[diff]
+    else:
+        return str(diff) + "-R"
 
 
 
-def dr_table(lev_df, ai_df, tr_df, filter_gs=True):
+def dr_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
     """
     Assembles a detailed table of (di) electronic recombinations based on the FAC files
 
@@ -70,17 +86,22 @@ def dr_table(lev_df, ai_df, tr_df, filter_gs=True):
         filtered_tr = tr_df.loc[tr_df[UPPER_ILEV] == dr_row[TRANS_ILEV]]
         for (_, tr_row) in filtered_tr.iterrows():
             # Load Final state ID and sname
-            dr_row[FINAL_ILEV] = tr_row[LOWER_ILEV]
+            dr_row[FINAL_ILEV] = int(tr_row[LOWER_ILEV])
             dr_row[FINAL_NAME] = get_name(dr_row[FINAL_ILEV])
             # Load TR Data
             dr_row[DE_TR] = tr_row[DE]
             dr_row[TR_RATE] = tr_row[TR_RATE]
             # Compute recomb strength
-            dr_row[DR_RECOMB_STRENGTH] = dr_row[TR_RATE] / (dr_row[TR_RATE] + dr_row[AI_RATE])
+            rad_frac = dr_row[TR_RATE] / (dr_row[TR_RATE] + dr_row[AI_RATE])
+            dr_row[DR_RECOMB_STRENGTH] = rad_frac * dr_row[DC_STRENGTH]
             dr_tab.append(dr_row.copy())
-            print(dr_row[INIT_NAME], "\n-->", dr_row[TRANS_NAME], "\n-->", dr_row[FINAL_NAME])
-            
+            if verbose:
+                print("DR:", dr_row[INIT_NAME],
+                      "\n-->", dr_row[TRANS_NAME],
+                      "\n-->", dr_row[FINAL_NAME])
+
     dr_tab = pd.DataFrame(dr_tab)
     dr_tab = dr_tab[COL_ORDER]
     dr_tab.sort_values([DE_AI, DE_TR], inplace=True)
+    dr_tab.reset_index(drop=True, inplace=True)
     return dr_tab
