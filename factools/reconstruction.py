@@ -31,7 +31,7 @@ def _powerset(iterable):
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
-def _parse_sname(sname):
+def parse_sname(sname):
     """
     Parse FAC's sname (non relativistic electron configuration) into a dict of dicts
 
@@ -53,7 +53,7 @@ def _parse_sname(sname):
     # print(sname, "-->", orb_nele)
     return orb_nele
 
-def _parse_name(name):
+def parse_name(name):
     """
     Parse FAC's name (relativistic electron configuration) into a dicts of dicts
     one for the electron numbers and one for the j information
@@ -92,7 +92,7 @@ def _parse_name(name):
     # print(name, "-->", orb_facj)
     return (orb_nele, orb_facj)
 
-def _parse_compl(compl):
+def parse_compl(compl):
     """
     Parse FAC's complex (number of electrons per n shell) into a dict
 
@@ -137,8 +137,8 @@ def _f_reconstruct_full_sname(compl, sname):
     sname (non relativistic electron configuration)
     """
 
-    orb_nele = _parse_sname(sname)
-    shell_nele = _parse_compl(compl)
+    orb_nele = parse_sname(sname)
+    shell_nele = parse_compl(compl)
 
     # Compute how many electrons are unaccounted for in each shell (exist in compl but not in sname)
     missing_nele = {}
@@ -211,8 +211,8 @@ def _f_reconstruct_full_name(sname, name):
     sname needs to be fully reconstructed for this method to work
     """
 
-    s_orb_nele = _parse_sname(sname)
-    (r_orb_nele, r_orb_facj) = _parse_name(name)
+    s_orb_nele = parse_sname(sname)
+    (r_orb_nele, r_orb_facj) = parse_name(name)
 
     omitted_orbitals = {}
 
