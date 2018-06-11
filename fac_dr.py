@@ -19,6 +19,7 @@ def compute_dr(z, dr_type, path=""):
     # Start solving
     fac.ConfigEnergy(0)
     fac.OptimizeRadial(["initial"])
+    print("WARNING! --- May have to optimize on final state instead (cf. FAC Manual)")
     fac.ConfigEnergy(1)
     # Compute structure and energy levels
     fac.Structure(f_lev_b,["initial", "transient", "final"])
@@ -26,6 +27,7 @@ def compute_dr(z, dr_type, path=""):
     fac.PrintTable(f_lev_b, f_lev, 1)
     # Compute the transisiton table for radiative decay
     fac.TransitionTable(f_tr_b, ["final"], ["transient"])
+    print("WARNING! --- TransitionTable no longer defaults to m=-1 but to 0, may have to be fixed")
     fac.PrintTable(f_tr_b, f_tr, 1)
     # Compute the Autoionisation table
     fac.AITable(f_ai_b, ["transient"], ["initial"])
