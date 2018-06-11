@@ -1,7 +1,14 @@
-from pfac import fac
+"""
+Contains scripts for calculating DR relevant data with FAC
+"""
 import os
+from pfac import fac
+
 
 def compute_dr(z, dr_type, path=""):
+    """
+    Main routine, computes DR for given element and recombination process
+    """
     elem = fac.ATOMICSYMBOL[z]
     # Initialise
     fac.Reinit()
@@ -22,7 +29,7 @@ def compute_dr(z, dr_type, path=""):
     print("WARNING! --- May have to optimize on final state instead (cf. FAC Manual)")
     fac.ConfigEnergy(1)
     # Compute structure and energy levels
-    fac.Structure(f_lev_b,["initial", "transient", "final"])
+    fac.Structure(f_lev_b, ["initial", "transient", "final"])
     fac.MemENTable(f_lev_b)
     fac.PrintTable(f_lev_b, f_lev, 1)
     # Compute the transisiton table for radiative decay
@@ -41,6 +48,9 @@ def compute_dr(z, dr_type, path=""):
     print("Element:" + elem + " DR: " + type_name + " done.")
 
 def compute_kll(z, path=""):
+    """
+    Convenience function for automatically computing all KLL-like transitions
+    """
     if z > 2:
         compute_dr(z, kll_he, path)
     if z > 3:
@@ -57,6 +67,9 @@ def compute_kll(z, path=""):
         compute_dr(z, kll_o, path)
 
 def compute_klm(z, path=""):
+    """
+    Convenience function for automatically computing all KLM-like transitions
+    """
     if z > 2:
         compute_dr(z, klm_he, path)
     if z > 3:
@@ -171,3 +184,4 @@ def klm_o():
     fac.Config('1*1 2*7 3*1', group="transient")
     fac.Config('1s2 2*7 3*0', '1s2 2*6 3*1', group="final")
     return "KLM-O"
+    
