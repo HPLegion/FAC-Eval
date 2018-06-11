@@ -1,3 +1,7 @@
+"""
+for testing and playing around
+"""
+
 import factools.fileimport
 import factools.reconstruction
 import factools.dr
@@ -17,8 +21,9 @@ lev_header, lev_df = factools.fileimport.read_lev(LEV_FILE)
 # print(tr_df.head())
 # print(ai_df.head())
 
-lev_df = factools.reconstruction.amend_level_dataframe(lev_df, verbose=True)
+lev_df = factools.reconstruction.amend_level_dataframe(lev_df, verbose=False)
 
-dr_df = factools.dr.dr_table(lev_df, ai_df, tr_df, verbose=True)
-
-print(dr_df.head())
+trans = factools.dr.dr_transition_table(lev_df, ai_df, tr_df, verbose=False)
+recomb = factools.dr.dr_recombination_table(lev_df, ai_df, tr_df, verbose=False)
+print(trans.head())
+print(recomb)
