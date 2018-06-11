@@ -62,8 +62,7 @@ def dr_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
         return lev_df.at[row_ind, "FULL_NAME"]
 
     COL_ORDER = [INIT_ILEV, INIT_NAME, TRANS_ILEV, TRANS_NAME, FINAL_ILEV, FINAL_NAME,
-                 RECOMB_TYPE, DR_RECOMB_STRENGTH, DE_AI, AI_RATE, DC_STRENGTH,
-                 DE_TR, TR_RATE]
+                 RECOMB_TYPE, DE_AI, AI_RATE, DC_STRENGTH, DE_TR, TR_RATE, DR_RECOMB_STRENGTH]
 
     if filter_gs:
         ai_df = ai_df.loc[ai_df[FREE_ILEV] == ai_df[FREE_ILEV].min()]
