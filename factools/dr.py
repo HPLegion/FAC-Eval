@@ -21,7 +21,8 @@ DE = "DELTA_E"
 AI_RATE = "AI_RATE"
 TR_RATE = "TR_RATE"
 DC_STRENGTH = "DC_STRENGTH"
-DR_RECOMB_STRENGTH = "DR_RECOMB_STRENGTH"
+RECOMB_STRENGTH = "RECOMB_STRENGTH"
+TRANSITION_STRENGTH = "TRANSITION_STRENGTH"
 RECOMB_TYPE = "RECOMB_TYPE"
 
 RECOMB_NAMES = {2:"DR", 3:"TR", 4:"QR"}
@@ -47,9 +48,26 @@ def recomb_type(inital_name, transient_name):
     else:
         return str(diff) + "-R"
 
+def dr_recombination_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
+    """
+    Assembles a condensed table of di(multi)electronic recombinations
+    where all optical transition information is omitted and purely the recombination matters
+    I.e. electron energy, total recombination strength, recom type.
+    """
+    COL_ORDER = [DE_AI, RECOMB_STRENGTH, RECOMB_TYPE]
+    df = dr_transition_table(lev_df, ai_df, tr_df, filter_gs, verbose)
+    grp = df.groupby([INIT_ILEV, TRANS_ILEV, RECOMB_TYPE], as_index=False)
+    
+    recomb = grp.agg({TRANSITION_STRENGTH:"sum", DE_AI:"mean"})
+    recomb.rename(columns={TRANSITION_STRENGTH:RECOMB_STRENGTH}, inplace=True)
+    recomb.drop([INIT_ILEV, TRANS_ILEV], axis=1, inplace=True)
+    recomb.sort_values(DE_AI, inplace=True)
+    recomb.reset_index(drop=True, inplace=True)
+    recomb = recomb[COL_ORDER]
+    return recomb
 
 
-def dr_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
+def dr_transition_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
     """
     Assembles a detailed table of (di) electronic recombinations based on the FAC files
 
@@ -62,7 +80,7 @@ def dr_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
         return lev_df.at[row_ind, "FULL_NAME"]
 
     COL_ORDER = [INIT_ILEV, INIT_NAME, TRANS_ILEV, TRANS_NAME, FINAL_ILEV, FINAL_NAME,
-                 RECOMB_TYPE, DE_AI, AI_RATE, DC_STRENGTH, DE_TR, TR_RATE, DR_RECOMB_STRENGTH]
+                 RECOMB_TYPE, DE_AI, AI_RATE, DC_STRENGTH, DE_TR, TR_RATE, TRANSITION_STRENGTH]
 
     if filter_gs:
         ai_df = ai_df.loc[ai_df[FREE_ILEV] == ai_df[FREE_ILEV].min()]
@@ -81,8 +99,9 @@ def dr_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
         dr_row[DC_STRENGTH] = ai_row[DC_STRENGTH]
         dr_row[RECOMB_TYPE] = recomb_type(dr_row[INIT_NAME], dr_row[TRANS_NAME])
 
-        # Go thorugh all realted radiative decays
+        # Go thorugh all related radiative decays
         filtered_tr = tr_df.loc[tr_df[UPPER_ILEV] == dr_row[TRANS_ILEV]]
+        total_tr_rate = filtered_tr["TR_RATE"].sum()
         for (_, tr_row) in filtered_tr.iterrows():
             # Load Final state ID and sname
             dr_row[FINAL_ILEV] = int(tr_row[LOWER_ILEV])
@@ -91,8 +110,8 @@ def dr_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
             dr_row[DE_TR] = tr_row[DE]
             dr_row[TR_RATE] = tr_row[TR_RATE]
             # Compute recomb strength
-            rad_frac = dr_row[TR_RATE] / (dr_row[TR_RATE] + dr_row[AI_RATE])
-            dr_row[DR_RECOMB_STRENGTH] = rad_frac * dr_row[DC_STRENGTH]
+            rad_frac = dr_row[TR_RATE] / (total_tr_rate + dr_row[AI_RATE])
+            dr_row[TRANSITION_STRENGTH] = rad_frac * dr_row[DC_STRENGTH]
             dr_tab.append(dr_row.copy())
             if verbose:
                 print("DR:", dr_row[INIT_NAME],
