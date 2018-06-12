@@ -94,7 +94,7 @@ def dr_transition_table(lev_df, ai_df, tr_df, filter_gs=True, verbose=False):
         row_ind = lev_df.index[lev_df["ILEV"] == ilev].tolist()[0]
         return lev_df.at[row_ind, "FULL_NAME"]
 
-    COL_ORDER = [INIT_ILEV, INIT_NAME, TRANS_ILEV, TRANS_NAME, FINAL_ILEV, FINAL_NAME, RECOMB_TYPE, 
+    COL_ORDER = [INIT_ILEV, INIT_NAME, TRANS_ILEV, TRANS_NAME, FINAL_ILEV, FINAL_NAME, RECOMB_TYPE,
                  RECOMB_NAME, DE_AI, AI_RATE, DC_STRENGTH, DE_TR, TR_RATE, TRANSITION_STRENGTH]
 
     if filter_gs:
