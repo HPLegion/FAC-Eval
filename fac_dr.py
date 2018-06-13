@@ -1,8 +1,28 @@
 """
 Contains scripts for calculating DR relevant data with FAC
+
+Can only be run in python 2.7 due to pfac
 """
 import os
 from pfac import fac
+
+def run_for_all_elements():
+    """
+    Computes KLL and KLM for all Elements from Sodium(11) to Fermium (100)
+    """
+    elems = range(11, 101)
+
+    kll_path = "./facoutput/KLL/"
+    if not os.path.exists(kll_path):
+        os.makedirs(kll_path)
+    for z in elems:
+        compute_kll(z, path=kll_path)
+
+    klm_path = "./facoutput/KLM/"
+    if not os.path.exists(klm_path):
+        os.makedirs(klm_path)
+    for z in elems:
+        compute_klm(z, path=klm_path)
 
 
 def compute_dr(z, dr_type, path=""):
@@ -16,25 +36,27 @@ def compute_dr(z, dr_type, path=""):
     # Execute problem specific configuration
     type_name = dr_type()
     # Generate filenames
-    f_str = path + elem + "_" + type_name
-    f_lev = f_str + ".lev"
+    f_stub = path + elem + "_" + type_name
+    f_lev = f_stub + ".lev"
     f_lev_b = f_lev + ".b" # temp binary
-    f_tr = f_str + ".tr"
+    f_tr = f_stub + ".tr"
     f_tr_b = f_tr + ".b" # temp binary
-    f_ai = f_str + ".ai"
+    f_ai = f_stub + ".ai"
     f_ai_b = f_ai + ".b" # temp binary
     # Start solving
     fac.ConfigEnergy(0)
-    fac.OptimizeRadial(["initial"])
-    print("WARNING! --- May have to optimize on final state instead (cf. FAC Manual)")
+    # According to the manual we should Optimize on the recombined ion
+    # (have seen other things out in the wild)
+    fac.OptimizeRadial(["final"])
     fac.ConfigEnergy(1)
     # Compute structure and energy levels
     fac.Structure(f_lev_b, ["initial", "transient", "final"])
     fac.MemENTable(f_lev_b)
     fac.PrintTable(f_lev_b, f_lev, 1)
     # Compute the transisiton table for radiative decay
+    # Transition Table defaults to m=0 since FAC1.0.7 (not in current docs)
+    # which computes all multipoles according to new (unreleased) docs
     fac.TransitionTable(f_tr_b, ["final"], ["transient"])
-    print("WARNING! --- TransitionTable no longer defaults to m=-1 but to 0, may have to be fixed")
     fac.PrintTable(f_tr_b, f_tr, 1)
     # Compute the Autoionisation table
     fac.AITable(f_ai_b, ["transient"], ["initial"])
@@ -51,6 +73,7 @@ def compute_kll(z, path=""):
     """
     Convenience function for automatically computing all KLL-like transitions
     """
+    print("Starting KLL calculations for ", fac.ATOMICSYMBOL[z], "...")
     if z > 2:
         compute_dr(z, kll_he, path)
     if z > 3:
@@ -70,6 +93,7 @@ def compute_klm(z, path=""):
     """
     Convenience function for automatically computing all KLM-like transitions
     """
+    print("Starting KLM calculations for ", fac.ATOMICSYMBOL[z], "...")
     if z > 2:
         compute_dr(z, klm_he, path)
     if z > 3:
@@ -184,4 +208,3 @@ def klm_o():
     fac.Config('1*1 2*7 3*1', group="transient")
     fac.Config('1s2 2*7 3*0', '1s2 2*6 3*1', group="final")
     return "KLM-O"
-    
