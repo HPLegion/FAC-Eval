@@ -108,103 +108,168 @@ def compute_klm(z, path=""):
         compute_dr(z, klm_n, path)
     if z > 8:
         compute_dr(z, klm_o, path)
+    if z > 9:
+        compute_dr(z, klm_f, path)
 
 ###### KLL Settings
 def kll_he():
     """Electron config for KLL DR with he-like initial state"""
-    fac.Config('1s2 2*0', group="initial")
+    fac.Config('1*2 2*0', group="initial")
     fac.Config('1*1 2*2', group="transient")
-    fac.Config('1s2 2*1', group="final")
+    fac.Config('1*2 2*1', group="final")
     return "KLL-He"
 
 def kll_li():
     """Electron config for KLL DR with li-like initial state"""
-    fac.Config('1s2 2*1', group="initial")
+    fac.Config('1*2 2*1', group="initial")
     fac.Config('1*1 2*3', group="transient")
-    fac.Config('1s2 2*2', group="final")
+    fac.Config('1*2 2*2', group="final")
     return "KLL-Li"
 
 def kll_be():
     """Electron config for KLL DR with be-like initial state"""
-    fac.Config('1s2 2*2', group="initial")
+    fac.Config('1*2 2*2', group="initial")
     fac.Config('1*1 2*4', group="transient")
-    fac.Config('1s2 2*3', group="final")
+    fac.Config('1*2 2*3', group="final")
     return "KLL-Be"
 
 def kll_b():
     """Electron config for KLL DR with b-like initial state"""
-    fac.Config('1s2 2*3', group="initial")
+    fac.Config('1*2 2*3', group="initial")
     fac.Config('1*1 2*5', group="transient")
-    fac.Config('1s2 2*4', group="final")
+    fac.Config('1*2 2*4', group="final")
     return "KLL-B"
 
 def kll_c():
     """Electron config for KLL DR with c-like initial state"""
-    fac.Config('1s2 2*4', group="initial")
+    fac.Config('1*2 2*4', group="initial")
     fac.Config('1*1 2*6', group="transient")
-    fac.Config('1s2 2*5', group="final")
+    fac.Config('1*2 2*5', group="final")
     return "KLL-C"
 
 def kll_n():
     """Electron config for KLL DR with n-like initial state"""
-    fac.Config('1s2 2*5', group="initial")
+    fac.Config('1*2 2*5', group="initial")
     fac.Config('1*1 2*7', group="transient")
-    fac.Config('1s2 2*6', group="final")
+    fac.Config('1*2 2*6', group="final")
     return "KLL-N"
 
 def kll_o():
     """Electron config for KLL DR with o-like initial state"""
-    fac.Config('1s2 2*6', group="initial")
+    fac.Config('1*2 2*6', group="initial")
     fac.Config('1*1 2*8', group="transient")
-    fac.Config('1s2 2*7', group="final")
+    fac.Config('1*2 2*7', group="final")
     return "KLL-O"
 
 ###### KLM Settings
+# def klm_he():
+#     """Electron config for KLM DR with he-like initial state"""
+#     fac.Config('1*2 2*0 3*0', group="initial")
+#     fac.Config('1*1 2*1 3*1', group="transient")
+#     fac.Config('1*2 2*1 3*0', '1*2 2*0 3*1', group="final")
+#     return "KLM-He"
+
+# def klm_li():
+#     """Electron config for KLM DR with li-like initial state"""
+#     fac.Config('1*2 2*1 3*0', group="initial")
+#     fac.Config('1*1 2*2 3*1', group="transient")
+#     fac.Config('1*2 2*2 3*0', '1*2 2*1 3*1', group="final")
+#     return "KLM-Li"
+
+# def klm_be():
+#     """Electron config for KLM DR with be-like initial state"""
+#     fac.Config('1*2 2*2 3*0', group="initial")
+#     fac.Config('1*1 2*3 3*1', group="transient")
+#     fac.Config('1*2 2*3 3*0', '1*2 2*2 3*1', group="final")
+#     return "KLM-Be"
+
+# def klm_b():
+#     """Electron config for KLM DR with b-like initial state"""
+#     fac.Config('1*2 2*3 3*0', group="initial")
+#     fac.Config('1*1 2*4 3*1', group="transient")
+#     fac.Config('1*2 2*4 3*0', '1*2 2*3 3*1', group="final")
+#     return "KLM-B"
+
+# def klm_c():
+#     """Electron config for KLM DR with c-like initial state"""
+#     fac.Config('1*2 2*4 3*0', group="initial")
+#     fac.Config('1*1 2*5 3*1', group="transient")
+#     fac.Config('1*2 2*5 3*0', '1*2 2*4 3*1', group="final")
+#     return "KLM-C"
+
+# def klm_n():
+#     """Electron config for KLM DR with n-like initial state"""
+#     fac.Config('1*2 2*5 3*0', group="initial")
+#     fac.Config('1*1 2*6 3*1', group="transient")
+#     fac.Config('1*2 2*6 3*0', '1*2 2*5 3*1', group="final")
+#     return "KLM-N"
+
+# def klm_o():
+#     """Electron config for KLM DR with o-like initial state"""
+#     fac.Config('1*2 2*6 3*0', group="initial")
+#     fac.Config('1*1 2*7 3*1', group="transient")
+#     fac.Config('1*2 2*7 3*0', '1*2 2*6 3*1', group="final")
+#     return "KLM-O"
+
+# def klm_f():
+#     """Electron config for KLM DR with f-like initial state"""
+#     fac.Config('1*2 2*7 3*0', group="initial")
+#     fac.Config('1*1 2*8 3*1', group="transient")
+#     fac.Config('1*2 2*8 3*0', '1*2 2*7 3*1', group="final")
+#     return "KLM-O"
+
 def klm_he():
     """Electron config for KLM DR with he-like initial state"""
-    fac.Config('1s2 2*0 3*0', group="initial")
+    fac.Config('1*2 2*0 3*0', group="initial")
     fac.Config('1*1 2*1 3*1', group="transient")
-    fac.Config('1s2 2*1 3*0', '1s2 2*0 3*1', group="final")
+    fac.Config('1*2 2*1 3*0', '1*2 2*0 3*1', '1*1 2*2 3*0', group="final")
     return "KLM-He"
 
 def klm_li():
     """Electron config for KLM DR with li-like initial state"""
-    fac.Config('1s2 2*1 3*0', group="initial")
+    fac.Config('1*2 2*1 3*0', group="initial")
     fac.Config('1*1 2*2 3*1', group="transient")
-    fac.Config('1s2 2*2 3*0', '1s2 2*1 3*1', group="final")
+    fac.Config('1*2 2*2 3*0', '1*2 2*1 3*1', '1*1 2*3 3*0', group="final")
     return "KLM-Li"
 
 def klm_be():
     """Electron config for KLM DR with be-like initial state"""
-    fac.Config('1s2 2*2 3*0', group="initial")
+    fac.Config('1*2 2*2 3*0', group="initial")
     fac.Config('1*1 2*3 3*1', group="transient")
-    fac.Config('1s2 2*3 3*0', '1s2 2*2 3*1', group="final")
+    fac.Config('1*2 2*3 3*0', '1*2 2*2 3*1', '1*1 2*4 3*0', group="final")
     return "KLM-Be"
 
 def klm_b():
     """Electron config for KLM DR with b-like initial state"""
-    fac.Config('1s2 2*3 3*0', group="initial")
+    fac.Config('1*2 2*3 3*0', group="initial")
     fac.Config('1*1 2*4 3*1', group="transient")
-    fac.Config('1s2 2*4 3*0', '1s2 2*3 3*1', group="final")
+    fac.Config('1*2 2*4 3*0', '1*2 2*3 3*1', '1*1 2*5 3*0', group="final")
     return "KLM-B"
 
 def klm_c():
     """Electron config for KLM DR with c-like initial state"""
-    fac.Config('1s2 2*4 3*0', group="initial")
+    fac.Config('1*2 2*4 3*0', group="initial")
     fac.Config('1*1 2*5 3*1', group="transient")
-    fac.Config('1s2 2*5 3*0', '1s2 2*4 3*1', group="final")
+    fac.Config('1*2 2*5 3*0', '1*2 2*4 3*1', '1*1 2*6 3*0', group="final")
     return "KLM-C"
 
 def klm_n():
     """Electron config for KLM DR with n-like initial state"""
-    fac.Config('1s2 2*5 3*0', group="initial")
+    fac.Config('1*2 2*5 3*0', group="initial")
     fac.Config('1*1 2*6 3*1', group="transient")
-    fac.Config('1s2 2*6 3*0', '1s2 2*5 3*1', group="final")
+    fac.Config('1*2 2*6 3*0', '1*2 2*5 3*1', '1*1 2*7 3*0', group="final")
     return "KLM-N"
 
 def klm_o():
     """Electron config for KLM DR with o-like initial state"""
-    fac.Config('1s2 2*6 3*0', group="initial")
+    fac.Config('1*2 2*6 3*0', group="initial")
     fac.Config('1*1 2*7 3*1', group="transient")
-    fac.Config('1s2 2*7 3*0', '1s2 2*6 3*1', group="final")
+    fac.Config('1*2 2*7 3*0', '1*2 2*6 3*1', '1*1 2*8 3*0', group="final")
+    return "KLM-O"
+
+def klm_f():
+    """Electron config for KLM DR with f-like initial state"""
+    fac.Config('1*2 2*7 3*0', group="initial")
+    fac.Config('1*1 2*8 3*1', group="transient")
+    fac.Config('1*2 2*8 3*0', '1*2 2*7 3*1', group="final")
     return "KLM-O"
