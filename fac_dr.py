@@ -73,7 +73,7 @@ def compute_kll(z, path=""):
     """
     Convenience function for automatically computing all KLL-like transitions
     """
-    print("Starting KLL calculations for ", fac.ATOMICSYMBOL[z], "...")
+    print("Starting KLL calculations for " + fac.ATOMICSYMBOL[z] + "...")
     if z > 2:
         compute_dr(z, kll_he, path)
     if z > 3:
@@ -93,7 +93,7 @@ def compute_klm(z, path=""):
     """
     Convenience function for automatically computing all KLM-like transitions
     """
-    print("Starting KLM calculations for ", fac.ATOMICSYMBOL[z], "...")
+    print("Starting KLM calculations for " + fac.ATOMICSYMBOL[z] + "...")
     if z > 2:
         compute_dr(z, klm_he, path)
     if z > 3:
@@ -273,3 +273,212 @@ def klm_f():
     fac.Config('1*1 2*8 3*1', group="transient")
     fac.Config('1*2 2*8 3*0', '1*2 2*7 3*1', group="final")
     return "KLM-O"
+
+###### LMM Settings
+def lmm_li():
+    """Electron config for LMM DR with li-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s1', group="initial")
+    fac.Config('2*0 3*2', group="transient")
+    fac.Config('2*1 3*1', group="final")
+    return "LMM-Li"
+
+def lmm_be():
+    """Electron config for LMM DR with be-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2', group="initial")
+    fac.Config('2*1 3*2', group="transient")
+    fac.Config('2*2 3*1', group="final")
+    return "LMM-Be"
+
+def lmm_b():
+    """Electron config for LMM DR with b-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2 2p1', group="initial")
+    fac.Config('2*2 3*2', group="transient")
+    fac.Config('2*3 3*1', group="final")
+    return "LMM-B"
+
+def lmm_c():
+    """Electron config for LMM DR with c-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2 2p2', group="initial")
+    fac.Config('2*3 3*2', group="transient")
+    fac.Config('2*4 3*1', group="final")
+    return "LMM-C"
+
+def lmm_n():
+    """Electron config for LMM DR with n-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2 2p3', group="initial")
+    fac.Config('2*4 3*2', group="transient")
+    fac.Config('2*5 3*1', group="final")
+    return "LMM-N"
+    
+def lmm_o():
+    """Electron config for LMM DR with o-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2 2p4', group="initial")
+    fac.Config('2*5 3*2', group="transient")
+    fac.Config('2*6 3*1', group="final")
+    return "LMM-O"
+
+def lmm_f():
+    """Electron config for LMM DR with f-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2 2p5', group="initial")
+    fac.Config('2*6 3*2', group="transient")
+    fac.Config('2*7 3*1', group="final")
+    return "LMM-F"
+
+def lmm_ne():
+    """Electron config for LMM DR with ne-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2s2 2p6', group="initial")
+    fac.Config('2*7 3*2', group="transient")
+    fac.Config('2*8 3*1', group="final")
+    return "LMM-Ne"
+
+def lmm_na():
+    """Electron config for LMM DR with na-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s1', group="initial")
+    fac.Config('2*7 3*3', group="transient")
+    fac.Config('2*8 3*2', group="final")
+    return "LMM-Na"
+
+def lmm_mg():
+    """Electron config for LMM DR with mg-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2', group="initial")
+    fac.Config('2*7 3*4', group="transient")
+    fac.Config('2*8 3*3', group="final")
+    return "LMM-Mg"
+
+def lmm_al():
+    """Electron config for LMM DR with al-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p1', group="initial")
+    fac.Config('2*7 3*5', group="transient")
+    fac.Config('2*8 3*4', group="final")
+    return "LMM-Al"
+
+def lmm_si():
+    """Electron config for LMM DR with si-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p2', group="initial")
+    fac.Config('2*7 3*6', group="transient")
+    fac.Config('2*8 3*5', group="final")
+    return "LMM-Si"
+
+def lmm_p():
+    """Electron config for LMM DR with p-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p3', group="initial")
+    fac.Config('2*7 3*7', group="transient")
+    fac.Config('2*8 3*6', group="final")
+    return "LMM-P"
+
+def lmm_s():
+    """Electron config for LMM DR with s-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p4', group="initial")
+    fac.Config('2*7 3*8', group="transient")
+    fac.Config('2*8 3*7', group="final")
+    return "LMM-S"
+
+def lmm_cl():
+    """Electron config for LMM DR with cl-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p5', group="initial")
+    fac.Config('2*7 3*9', group="transient")
+    fac.Config('2*8 3*8', group="final")
+    return "LMM-Cl"
+
+def lmm_ar():
+    """Electron config for LMM DR with ar-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6', group="initial")
+    fac.Config('2*7 3*10', group="transient")
+    fac.Config('2*8 3*9', group="final")
+    return "LMM-Cl"
+
+def lmm_k():
+    """Electron config for LMM DR with k-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 4s1', group="initial")
+    fac.Config('2*7 3*10 4s1', group="transient")
+    fac.Config('2*8 3*9 4s1', group="final")
+    return "LMM-K"
+
+def lmm_ca():
+    """Electron config for LMM DR with ca-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 4s2', group="initial")
+    fac.Config('2*7 3*10 4s2', group="transient")
+    fac.Config('2*8 3*9 4s2', group="final")
+    return "LMM-Ca"
+
+def lmm_sc():
+    """Electron config for LMM DR with sc-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d1 4s2', group="initial")
+    fac.Config('2*7 3*11 4s2', group="transient")
+    fac.Config('2*8 3*10 4s2', group="final")
+    return "LMM-Sc"
+
+def lmm_ti():
+    """Electron config for LMM DR with ti-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d2 4s2', group="initial")
+    fac.Config('2*7 3*12 4s2', group="transient")
+    fac.Config('2*8 3*11 4s2', group="final")
+    return "LMM-Ti"
+
+def lmm_v():
+    """Electron config for LMM DR with v-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d3 4s2', group="initial")
+    fac.Config('2*7 3*13 4s2', group="transient")
+    fac.Config('2*8 3*12 4s2', group="final")
+    return "LMM-V"
+
+def lmm_cr():
+    """Electron config for LMM DR with cr-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d4 4s2', group="initial")
+    fac.Config('2*7 3*14 4s2', group="transient")
+    fac.Config('2*8 3*13 4s2', group="final")
+    return "LMM-Cr"
+
+def lmm_mn():
+    """Electron config for LMM DR with mn-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d5 4s2', group="initial")
+    fac.Config('2*7 3*15 4s2', group="transient")
+    fac.Config('2*8 3*14 4s2', group="final")
+    return "LMM-Mn"
+
+def lmm_fe():
+    """Electron config for LMM DR with fe-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d6 4s2', group="initial")
+    fac.Config('2*7 3*16 4s2', group="transient")
+    fac.Config('2*8 3*15 4s2', group="final")
+    return "LMM-Fe"
+
+def lmm_co():
+    """Electron config for LMM DR with co-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d7 4s2', group="initial")
+    fac.Config('2*7 3*17 4s2', group="transient")
+    fac.Config('2*8 3*16 4s2', group="final")
+    return "LMM-Co"
+
+def lmm_ni():
+    """Electron config for LMM DR with ni-like initial state"""
+    fac.Closed('1s')
+    fac.Config('2*8 3s2 3p6 3d8 4s2', group="initial")
+    fac.Config('2*7 3*18 4s2', group="transient")
+    fac.Config('2*8 3*17 4s2', group="final")
+    return "LMM-Ci"
