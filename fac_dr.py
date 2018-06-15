@@ -115,7 +115,7 @@ def compute_lmm(z, path=""):
     """
     Convenience function for automatically computing all LMM-like transitions
     """
-    print("Starting KLM calculations for " + fac.ATOMICSYMBOL[z] + "...")
+    print("Starting LMM calculations for " + fac.ATOMICSYMBOL[z] + "...")
     if z > 3:
         compute_dr(z, lmm_li, path)
     if z > 4:
