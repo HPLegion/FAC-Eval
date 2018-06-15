@@ -26,18 +26,21 @@ ELEMENT_Z = {"H":1, "He":2, "Li":3, "Be":4, "B":5, "C":6, "N":7, "O":8, "F":9, "
 CHARGE_STATE = "CHARGE_STATE"
 
 ##### Setup Variables
-RAWPATH = "./example_data/" # Folder to scan for raw data
-OUTPATH = "./example_data/out/" # Folder to put the output data
-OUTPOSTFIX = "_KLL" # Postfix for the filename --> element + postfix +.csv
+RAWPATH = "./cs/" # Folder to scan for raw data
+OUTPATH = "./cs/" # Folder to put the output data
+OUTPOSTFIX = "_LMM" # Postfix for the filename --> element + postfix +.csv
 VERBOSE = True
 
 ##### Helper Methods ----- These may need to be adjusted depending on filenaming conventions
 def base_element(fileNameStub): # The element representing the ionic core
-    return fileNameStub.split(".")[0]
+    # return fileNameStub.split(".")[0]
+    return fileNameStub.split("_")[0]
 
 def remaining_electrons(fileNameStub): # The charge state identification
-    temp = fileNameStub.split(".")[1]
-    temp = temp.split("-")[0]
+    # temp = fileNameStub.split(".")[1]
+    # temp = temp.split("-")[0]
+    temp = fileNameStub.split("-")[1]
+    temp = temp.split(".")[0]
     return ELEMENT_Z[temp.capitalize()]
 
 ##### Main Script
