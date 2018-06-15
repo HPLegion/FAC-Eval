@@ -459,7 +459,7 @@ def lmm_ar():
     fac.Config('2*8 3s2 3p6', group="initial")
     fac.Config('2*7 3*10', group="transient")
     fac.Config('2*8 3*9', group="final")
-    return "LMM-Cl"
+    return "LMM-Ar"
 
 def lmm_k():
     """Electron config for LMM DR with k-like initial state"""
