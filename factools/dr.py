@@ -41,8 +41,8 @@ def recomb_info(inital_name, transient_name):
     shell_gained = []
     ns = initial.keys() | transient.keys()
     for n in ns: #Loop over all shells
-        ini_shell = initial[n]
-        tra_shell = transient[n]
+        ini_shell = initial.get(n, {})
+        tra_shell = transient.get(n, {})
         lpms = ini_shell.keys() | tra_shell.keys()
         for lpm in lpms: # and over all orbitals in each shell
             d = tra_shell.get(lpm, 0) - ini_shell.get(lpm, 0)
