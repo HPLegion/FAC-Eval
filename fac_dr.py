@@ -539,4 +539,5 @@ def lmm_ni():
     fac.Config('2*8 3s2 3p6 3d8', group="initial")
     fac.Config('2*7 3*18', group="transient")
     fac.Config('2*8 3*17', group="final")
-    return "LMM-Ci"
+    return "LMM-Ni"
+    
