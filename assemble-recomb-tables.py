@@ -26,9 +26,9 @@ ELEMENT_Z = {"H":1, "He":2, "Li":3, "Be":4, "B":5, "C":6, "N":7, "O":8, "F":9, "
 CHARGE_STATE = "CHARGE_STATE"
 
 ##### Setup Variables
-RAWPATH = "./cs/" # Folder to scan for raw data
-OUTPATH = "./cs/" # Folder to put the output data
-OUTPOSTFIX = "_LMM" # Postfix for the filename --> element + postfix +.csv
+RAWPATH = "./KLL/" # Folder to scan for raw data
+OUTPATH = "./KLL/out/" # Folder to put the output data
+OUTPOSTFIX = "_KLL" # Postfix for the filename --> element + postfix +.csv
 VERBOSE = True
 
 ##### Helper Methods ----- These may need to be adjusted depending on filenaming conventions
